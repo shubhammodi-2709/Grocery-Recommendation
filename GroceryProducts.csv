@@ -1,0 +1,119 @@
+ProductName,ID,Type,SameID,Price
+Apple,4,Apple,0,30
+Avocado,5,Avocado,1,50
+Banana,6,Banana,2,10
+Kiwi,7,Kiwi,3,60
+Lemon,8,Lemon,4,5
+Lime,9,Lime,5,12
+Mango,10,Mango,6,25
+Cantaloupe,11,Melon,7,34
+Galia-Melon,12,Melon,7,211
+Honeydew-Melon,13,Melon,7,24
+Watermelon,14,Melon,7,45
+Nectarine,15,Nectarine,8,19
+Orange,16,Orange,9,16
+Papaya,17,Papaya,10,36
+Passion-Fruit,18,Passion,11,65
+Peach,19,Peach,12,4
+Anjou,20,Pear,13,54
+Conference,21,Pear,13,6
+Kaiser,22,Pear,13,41
+Pineapple,23,Pineapple,14,32
+Plum,24,Plum,15,13
+Pomegranate,25,Pomegranate,16,16
+Red-Grapefruit,26,Grapefruit,17,58
+Satsumas,27,Satsumas,18,33
+Bravo-Apple-Juice,28,Juice,19,20
+Bravo-Orange-Juice,29,Juice,19,20
+God-Morgon-Apple-Juice,30,Juice,19,20
+God-Morgon-Orange-Juice,31,Juice,19,20
+God-Morgon-Orange-Red-Grapefruit-Juice,32,Juice,19,20
+God-Morgon-Red-Grapefruit-Juice,33,Juice,19,20
+Tropicana-Apple-Juice,34,Juice,19,20
+Tropicana-Golden-Grapefruit,35,Juice,19,20
+Tropicana-Juice-Smooth,36,Juice,19,20
+Tropicana-Mandarin-Morning,37,Juice,19,20
+Arla-Ecological-Medium-Fat-Milk,38,Milk,20,15
+Arla-Lactose-Medium-Fat-Milk,39,Milk,20,18
+Arla-Medium-Fat-Milk,40,Milk,20,32
+Arla-Standard-Milk,41,Milk,20,21
+Garant-Ecological-Medium-Fat-Milk,42,Milk,20,25
+Garant-Ecological-Standard-Milk,43,Milk,20,42
+Oatly-Natural-Oatghurt,44,Oat,22,39
+Oatly-Oat-Milk,45,Oat,22,31
+Arla-Ecological-Sour-Cream,46,Sour,23,35
+Arla-Sour-Cream,47,Sour,23,66
+Arla-Sour-Milk,48,Sour,23,24
+Alpro-Blueberry-Soyghurt,49,Soy,25,37
+Alpro-Vanilla-Soyghurt,50,Soy,25,24
+Alpro-Fresh-Soy-Milk,51,Soy,25,97
+Alpro-Shelf-Soy-Milk,52,Soy,25,10
+Arla-Mild-Vanilla-Yoghurt,53,Yoghurt,27,20
+Arla-Natural-Mild-Low-Fat-Yoghurt,54,Yoghurt,27,43
+Arla-Natural-Yoghurt,55,Yoghurt,27,16
+Valio-Vanilla-Yoghurt,56,Yoghurt,27,29
+Yoggi-Strawberry-Yoghurt,57,Yoghurt,27,35
+Yoggi-Vanilla-Yoghurt,58,Yoghurt,27,47
+Asparagus,59,Asparagus,28,2
+Aubergine,60,Aubergine,29,45
+Cabbage,61,Cabbage,30,63
+Carrots,62,Carrots,31,14
+Cucumber,63,Cucumber,32,55
+Garlic,64,Garlic,33,6
+Ginger,65,Ginger,34,75
+Leek,66,Leek,35,22
+Brown-Cap-Mushroom,67,Mushroom,36,33
+Yellow-Onion,68,Onion,37,16
+Green-Bell-Pepper,69,Pepper,38,98
+Orange-Bell-Pepper,70,Pepper,38,35
+Red-Bell-Pepper,71,Pepper,38,44
+Yellow-Bell-Pepper,72,Pepper,38,23
+Floury-Potato,73,Potato,39,16
+Solid-Potato,74,Potato,39,35
+Sweet-Potato,75,Potato,39,16
+Red-Beet,76,Beet,40,73
+Beef-Tomato,77,Tomato,41,65
+Regular-Tomato,78,Tomato,41,14
+Vine-Tomato,79,Tomato,41,46
+Zucchini,80,Zucchini,42,43
+American,81,Cheeses,43,68
+Asiago,82,Cheeses,43,24
+Blue Cheese,83,Cheeses,43,87
+Bocconcini,84,Cheeses,43,24
+Brie,85,Cheeses,43,67
+Burrata,86,Cheeses,43,84
+Camembert,87,Cheeses,43,65
+Cheddar,88,Cheeses,43,100
+Cheese Curds,89,Cheeses,43,56
+Colby,90,Cheeses,43,23
+Colby-Jack Cheese,91,Cheeses,43,15
+Cold-Pack Cheese,92,Cheeses,43,68
+Cotija,93,Cheeses,43,41
+Cottage cheese,94,Cheeses,43,83
+Cream cheese,95,Cheeses,43,51
+Emmental,96,Cheeses,43,57
+Farmer’s,97,Cheeses,43,89
+Feta,98,Cheeses,43,66
+Gorgonzola ,99,Cheeses,43,11
+Gouda,100,Cheeses,43,45
+Gruyere,101,Cheeses,43,88
+Halloumi,102,Cheeses,43,22
+Havarti,103,Cheeses,43,46
+Limburger,104,Cheeses,43,62
+Mascarpone,105,Cheeses,43,76
+Monterey Jack,106,Cheeses,43,41
+Mozzarella,107,Cheeses,43,44
+Muenster,108,Cheeses,43,34
+Paneer,109,Cheeses,43,36
+Parmesan,110,Cheeses,43,38
+Provolone,111,Cheeses,43,24
+Ricotta,112,Cheeses,43,86
+Romano,113,Cheeses,43,79
+String Cheese,114,Cheeses,43,24
+Swiss,115,Cheeses,43,47
+Dent corn,116,Corn,42,12
+Flint corn,117,Corn,42,6
+Pod corn,118,Corn,42,8
+Popcorn,119,Corn,42,10
+Flour corn ,120,Corn,42,9
+Sweet corn,121,Corn,42,16

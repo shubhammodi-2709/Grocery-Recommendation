@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background */
+        }
+        .table th, .table td {
+            vertical-align: middle; /* Center align table cells */
+        }
+        .recommendation-item {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 30%;
+            text-align: center;
+        }
+        .recommendation-item p {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .recommendation-item button {
+            background-color: #007bff;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+        .recommendation-item button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Your Cart</h1>
+
+        <!-- Cart Items -->
+        <div class="row mb-4">
+            {% for item in cart_items %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ item.product_name }}</h5>
+                        <p class="card-text">Price: ${{ item.price }}</p>
+                        <div class="d-flex justify-content-center align-items-center mb-3">
+                            <button class="btn btn-secondary" onclick="decrementQuantity({{ item.product_id }})">-</button>
+                            <input type="number" id="quantity-{{ item.product_id }}" class="quantity-input" value="{{ item.quantity }}" min="1" readonly>
+                            <button class="btn btn-secondary" onclick="incrementQuantity({{ item.product_id }})">+</button>
+                        </div>
+                        <p><strong>Total:</strong> ${{ item.price * item.quantity }}</p>
+                        <form action="/remove_from_cart/{{ item.product_id }}" method="POST">
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <h2 class="text-right">Total Price: ${{ total_price }}</h2>
+
+        <!-- Checkout Button -->
+        <div class="text-center mt-4">
+            <form action="/checkout" method="POST">
+                <button type="submit" class="btn btn-success btn-lg">Proceed to Checkout</button>
+            </form>
+        </div>
+
+        <!-- Recommendations Section -->
+        <h2 class="text-center mt-5">You Might Also Like</h2>
+        <div class="row mt-3">
+            {% for recommendation in recommendations %}
+            <div class="col-md-4 mb-4">
+                <div class="recommendation-item">
+                    <h5>{{ recommendation.ProductName }}</h5>
+                    <p>Price: ${{ recommendation.Price }}</p>
+                    <form action="/add_to_cart" method="POST">
+                        <input type="hidden" name="product_id" value="{{ recommendation.ID }}">
+                        <input type="hidden" name="product_name" value="{{ recommendation.ProductName }}">
+                        <input type="hidden" name="price" value="{{ recommendation.Price }}">
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Continue Shopping and Logout Links -->
+        <div class="text-center mt-4">
+            <p><a href="/main" class="btn btn-outline-secondary">Continue Shopping</a></p>
+            <p><a href="/logout" class="btn btn-outline-danger">Logout</a></p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Cart Quantity Update Functions -->
+    <script>
+        function incrementQuantity(productId) {
+            var quantityInput = document.getElementById('quantity-' + productId);
+            var currentQuantity = parseInt(quantityInput.value);
+            quantityInput.value = currentQuantity + 1;
+            updateCart(productId, currentQuantity + 1);
+        }
+
+        function decrementQuantity(productId) {
+            var quantityInput = document.getElementById('quantity-' + productId);
+            var currentQuantity = parseInt(quantityInput.value);
+            if (currentQuantity > 1) {
+                quantityInput.value = currentQuantity - 1;
+                updateCart(productId, currentQuantity - 1);
+            }
+        }
+
+        function updateCart(productId, quantity) {
+            fetch('/update_cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    quantity: quantity
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response if needed
+                console.log(data);
+                window.location.reload();
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Light gray background */
+    margin: 0;
+    padding: 0;
+    color: #333; /* Dark text for readability */
+}
+
+/* Container for the overall layout */
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+/* Header section styling */
+header {
+    background-color: #333; /* Dark background for header */
+    color: #fff; /* White text */
+    padding: 10px 0;
+    text-align: center;
+}
+
+/* Button styling */
+button {
+    background-color: #28a745; /* Green button background */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Input fields for text, password, and number types */
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensure padding does not overflow */
+    font-size: 16px;
+}
+
+/* Cart container styles */
+#cart-container {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Cart item styling */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-item-name {
+    font-size: 16px;
+}
+
+.cart-item-price, .cart-item-total {
+    font-size: 14px;
+    color: #555;
+}
+
+.cart-item-quantity {
+    width: 50px;
+    text-align: center;
+}
+
+.cart-item button {
+    background-color: #dc3545; /* Red button for remove action */
+    padding: 5px 10px;
+}
+
+.cart-item button:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+/* Total price display */
+#total-price {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 20px;
+}
+
+/* Recommendations container */
+#recommendations-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+/* Styling for individual recommendation items */
+.recommendation-item {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 30%;
+    text-align: center;
+}
+
+.recommendation-item p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.recommendation-item button {
+    background-color: #007bff; /* Blue button for add to cart */
+    padding: 8px 15px;
+    font-size: 14px;
+}
+
+.recommendation-item button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Cart page and checkout button */
+#checkout-button {
+    background-color: #28a745; /* Green checkout button */
+    padding: 15px;
+    width: 100%;
+    font-size: 18px;
+    text-align: center;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#checkout-button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+    .recommendation-item {
+        width: 48%; /* Two items per row on medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .recommendation-item {
+        width: 100%; /* One item per row on small screens */
+    }
+
+    #cart-container {
+        padding: 10px;
+    }
+
+    #total-price {
+        font-size: 16px;
+    }
+}

@@ -1,12 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 import sqlite3
 import pandas as pd
-from models.recommendation import recommend_products
+import numpy as np
+from Init_model import ProductRecommender
+from database_helper.db_init import create_tables
+
+import secrets
 import json
 
 app = Flask(__name__)
-app.secret_key = 'Shubham@123'  # Change this to a secure random key
-DATABASE = 'users.db'
+app.secret_key = secrets.token_hex(16)
+DATABASE = 'data.db'
 
 # Function to connect to the SQLite database
 def get_db_connection(DATABASE=DATABASE):
@@ -22,8 +26,8 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form['username'].strip()
+        password = request.form['password'].strip()
 
         conn = get_db_connection()
         user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
@@ -45,8 +49,8 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form['username'].strip()
+        password = request.form['password'].strip()
 
         conn = get_db_connection()
         try:
@@ -62,26 +66,46 @@ def signup():
 
     return render_template('signup.html')
 
-# Route for the main page after login
+# Route for the shopping page after login
 @app.route('/main')
 def main():
     user_id = session.get('user_id')  # Get the logged-in user's ID from session
     if not user_id:
         flash('Please log in to see recommendations.', 'error')
         return redirect(url_for('login'))
-
-    # Assuming you want to use 'orders.db' as the database for product recommendations
-    db_name = 'orders.db'
     
-    # Call the recommend_products function with the required parameters
-    recommendations = recommend_products(db_name, user_id)
+    # Usage example
+    data_path = "GroceryProducts.csv"  # Path to your product dataset
+    model_path = "kmeans_model.pkl"  # Path to save the trained model
+    
+    # Initialize the recommender system
+    recommender = ProductRecommender(data_path, model_path, n_clusters=5)
+
+    # Train the model (if not already trained)    
+    if recommender.model is None or 'Cluster' not in recommender.data.columns:
+        print("Training the model...")
+        recommender.train_model()
+
+    # Get recommendations for a product
+    recommendations = recommender.recommend_products(product_id=10)
 
     # Load the products from the CSV file as you were doing before
     df = pd.read_csv('GroceryProducts.csv')  # Update the path to your CSV file
     products = df.to_dict(orient='records')  # Convert DataFrame to a list of dictionaries
 
+    def match(product_id):
+        # Use df.loc to find the product with the given ID
+        product = df.loc[df['ID'] == product_id]
+        if not product.empty:
+            return product.iloc[0].to_dict()  # Convert the first match to a dictionary
+        else:
+            return None  # Return None if no match is found
+
+    # Loop through the recommendations and match each product
+    detailed_recommendations = [match(rec['ID']) for rec in recommendations]
+
     # Render the main page with the products and recommendations
-    return render_template('main.html', products=products, recommendations=recommendations)
+    return render_template('main.html', products=products, recommendations=detailed_recommendations)
 
 @app.route('/update_cart', methods=['GET', 'POST'])
 def update_cart():
@@ -174,8 +198,7 @@ def cart():
 # Route for checkout
 @app.route('/checkout', methods=['POST'])
 def checkout():
-    # Logic to process checkout, save to orders.db
-    # Fetch the cart items from session or database
+
     flash('Order has been placed successfully!', 'success')
     return redirect(url_for('main'))
 
@@ -187,4 +210,5 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
+    create_tables()
     app.run(debug=True)

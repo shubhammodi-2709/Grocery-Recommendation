@@ -34,7 +34,7 @@
                 {% for product in products %}
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <img src="{{ product['ImageURL'] }}" class="card-img-top" alt="{{ product['ProductName'] }}">
+                            <!-- <img src="{{ product['ImageURL'] }}" class="card-img-top" alt="{{ product['ProductName'] }}"> -->
                             <div class="card-body">
                                 <h5 class="card-title">{{ product['ProductName'] }}</h5>
                                 <p class="card-text">{{ product['Description'] }}</p>
@@ -57,7 +57,7 @@
                     {% for product in recommendations %}
                         <div class="col-md-4 mb-4">
                             <div class="card">
-                                <img src="{{ product['ImageURL'] }}" class="card-img-top" alt="{{ product['ProductName'] }}">
+                                <!-- <img src="{{ product['ImagePath'] }}" class="card-img-top" alt="{{ product['ProductName'] }}"> -->
                                 <div class="card-body">
                                     <h5 class="card-title">{{ product['ProductName'] }}</h5>
                                     <p class="card-text">{{ product['Description'] }}</p>

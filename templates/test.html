@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page - Grocery Store</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Grocery Store</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li>
+                    <form class="d-flex" onsubmit="event.preventDefault(); performSearch();">
+                        <input class="form-control me-2" id="search-bar" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart">View Cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Available Products</h2>
+
+        <!-- Dropdown for Product Types -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <label for="product-type-dropdown" class="mr-2">Filter by Type:</label>
+                <select id="product-type-dropdown" class="form-select" onchange="filterByType()">
+                    <option value="all">All Types</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" id="show-more-btn" onclick="showMoreProducts()">Show More</button>
+        </div>
+
+        <!-- Product Container -->
+        <div id="product-container" class="row"></div>
+
+        <!-- Recommendations Section -->
+        <div class="mt-5">
+            <h3>Recommended Products</h3>
+            <div id="recommendations-container" class="row"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center py-3 mt-5">
+        <p>&copy; 2024 Grocery Store. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Embed Products Data as JSON -->
+    <script>
+        const products = {{ products | tojson }};
+        const recommendations = {{ recommendations | tojson }};
+
+        let currentProducts = []; // Filtered products to display
+        let displayedCount = 5; // Number of products currently displayed
+
+        // Populate dropdown with unique product types
+        function populateDropdown(products) {
+            const dropdown = document.getElementById('product-type-dropdown');
+            const types = [...new Set(products.map(product => product.Type || 'Other'))];
+            types.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = type;
+                dropdown.appendChild(option);
+            });
+        }
+
+        // Render products dynamically
+        function renderProducts(productList, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // Clear existing products
+            if (productList.length === 0) {
+                container.innerHTML = '<p class="text-center">No products found.</p>';
+                return;
+            }
+
+            productList.forEach(product => {
+                const productCard = `
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">${product.ProductName}</h5>
+                                <p><strong>Price: $${product.Price}</strong></p>
+                                <button class="btn btn-primary" onclick="addToCart(${product.ID}, '${product.ProductName}', ${product.Price})">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += productCard;
+            });
+        }
+
+        // Render a limited number of products
+        function renderLimitedProducts() {
+            const limitedProducts = currentProducts.slice(0, displayedCount);
+            renderProducts(limitedProducts, 'product-container');
+
+            // Hide "Show More" button if all products are displayed
+            const showMoreBtn = document.getElementById('show-more-btn');
+            if (displayedCount >= currentProducts.length) {
+                showMoreBtn.style.display = 'none';
+            } else {
+                showMoreBtn.style.display = 'inline-block';
+            }
+        }
+
+        // Filter products by type
+        function filterByType() {
+            const selectedType = document.getElementById('product-type-dropdown').value;
+            currentProducts = selectedType === 'all' ? products : products.filter(product => product.Type === selectedType);
+
+            // Reset displayed count and re-render
+            displayedCount = 5;
+            renderLimitedProducts();
+        }
+
+        // Show more products when "Show More" is clicked
+        function showMoreProducts() {
+            displayedCount += 5; // Increment by 5
+            renderLimitedProducts();
+        }
+
+        // Perform search and re-render products
+        function performSearch() {
+            const query = document.getElementById('search-bar').value.trim().toLowerCase();
+            currentProducts = products.filter(product =>
+                product.ProductName.toLowerCase().includes(query)
+            );
+
+            // Reset displayed count and re-render
+            displayedCount = 5;
+            renderLimitedProducts();
+        }
+
+        // Render recommendations
+        function renderRecommendations() {
+            renderProducts(recommendations, 'recommendations-container');
+        }
+
+        // Add to Cart Functionality
+        function addToCart(productId, productName, productPrice) {
+            const cartItem = {
+                id: productId,
+                name: productName,
+                price: productPrice,
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            let found = false;
+            for (let i = 0; i < cart.length; i++) {
+                if (cart[i].id === productId) {
+                    cart[i].quantity += 1;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                cart.push(cartItem);
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${productName} added to cart!`);
+        }
+
+        // Initialize the page
+        function initializePage() {
+            currentProducts = products; // Start with all products
+            populateDropdown(products);
+            renderLimitedProducts();
+            renderRecommendations();
+        }
+
+        // Run initialization after data is loaded
+        initializePage();
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

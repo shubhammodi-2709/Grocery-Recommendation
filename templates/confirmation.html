@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Grocery Store</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Order Confirmation</h2>
+
+        <div class="alert alert-success text-center">
+            <h4>Your order has been placed successfully!</h4>
+            <p>Thank you for shopping with us. Below are the details of your order:</p>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product_id, details in product_details.items() %}
+                    <tr>
+                        <td>{{ details.ProductName }}</td>
+                        <td>${{ details.Price }}</td>
+                        <td>{{ details.Quantity }}</td>
+                        <td>${{ details.Total | round(2) }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-right">
+            <h4>Total Amount: ${{ total_amount | round(2) }}</h4>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-primary">Return to Home</a>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center py-3 mt-5">
+        <p>&copy; 2024 Grocery Store. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>
